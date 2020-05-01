@@ -1,1 +1,2 @@
 https://data.cityofnewyork.us/api/views/w7w3-xahh/rows.csv?accessType=DOWNLOAD
+https://github.com/eagraf/db-final-project/raw/master/uszip/uszips.csv
