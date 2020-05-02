@@ -26,13 +26,41 @@ def main():
         with open('datasets/uszips.csv', 'r') as zip_data:
             csv_reader = csv.reader(zip_data, delimiter=',')
 
-            # Print a single row
-            count = 0
+            first = True
             for row in csv_reader:
-                count += 1
-            print(count)
+                if not first:
+                    query = "INSERT INTO db_project.zip (zip, lat, lng, city, state_id, state_name, zcta, \
+                        parent_zcta, population, density, county_fips, county_name, county_weights, \
+                        county_names_all, county_fips_all, imprecise, military, timezone) \
+                        VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"
+                    cursor.execute(query, row)
+                    conn.commit()
+                else:
+                    first = False
 
+        # Load business data
+        with open('datasets/Legally_Operating_Businesses.csv') as business_data:
+            csv_reader = csv.reader(business_data, delimiter=',')
 
+            first = True
+            for row in csv_reader:
+
+                clean_row = [ None if a=='' else a for a in row ]
+                if not first:
+                    query = "INSERT INTO db_project.business (license_numer, license_type, \
+                        license_expiration_date, license_status, license_creation_date, industry, \
+                        business_name, business_name_2, address_building, address_street_name, \
+                        secondary_address_street_name, address_city, address_state, address_zip, \
+                        contact_phone, address_borough, borough_code, community_board, council_district, \
+                        bin, bbl, nta, census_tract, detail, longitude, latitude, location) \
+                        VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"
+                    try:
+                        cursor.execute(query, clean_row)
+                    except Exception:
+                        conn.rollback()
+                    conn.commit()
+                else:
+                    first = False
 
 
 if __name__ == "__main__":
