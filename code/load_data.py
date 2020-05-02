@@ -1,6 +1,7 @@
 import psycopg2
 import psycopg2.extras
 import csv
+import os
 
 connection_string = "host='localhost' dbname='dbms_final_project' user='dbms_project_user' password='dbms_password'"
 
@@ -14,16 +15,18 @@ def main():
     # Get db connection
     conn = psycopg2.connect(connection_string)
 
+    dirname = os.path.dirname(__file__)
+
     # Read in input data
     with conn.cursor() as cursor:
         # Load schema
-        with open('schema.sql', 'r') as schema:
+        with open(os.path.join(dirname, 'schema.sql'), 'r') as schema:
             setup_queries = schema.read()
             cursor.execute(setup_queries)
         conn.commit()
 
         # Load zip data
-        with open('datasets/uszips.csv', 'r') as zip_data:
+        with open(os.path.join(dirname, 'datasets/uszips.csv'), 'r') as zip_data:
             csv_reader = csv.reader(zip_data, delimiter=',')
 
             first = True
@@ -39,7 +42,7 @@ def main():
                     first = False
 
         # Load business data
-        with open('datasets/Legally_Operating_Businesses.csv') as business_data:
+        with open(os.path.join(dirname, 'datasets/Legally_Operating_Businesses.csv'), 'r') as business_data:
             csv_reader = csv.reader(business_data, delimiter=',')
 
             first = True
