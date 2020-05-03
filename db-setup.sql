@@ -1,3 +1,4 @@
-CREATE DATABASE dbms_final_project;
-CREATE USER dbms_project_user WITH PASSWORD 'dbms_password';
-GRANT ALL PRIVILEGES ON DATABASE dbms_final_project TO dbms_project_user;
+DROP DATABASE if exists finalproject;
+CREATE DATABASE finalproject;
+CREATE USER finalproject WITH PASSWORD 'pass';
+GRANT ALL PRIVILEGES ON DATABASE finalproject TO finalproject;

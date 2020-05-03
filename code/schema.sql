@@ -56,3 +56,5 @@ CREATE TABLE db_project.business(
     latitude FLOAT,
     location VARCHAR(255)
 );
+
+GRANT ALL PRIVILEGES ON all tables in SCHEMA db_project TO finalproject;
