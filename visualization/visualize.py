@@ -21,20 +21,20 @@ def heatmap(name):
 
 # should take zipcode data, black on the map=essentials
 def choropleth(map, name, legend, dataset):
-    choro = sample.generateSampleZips()  
+    choro = None
+    if dataset != None:
+        choro = pd.DataFrame()
+        choro['zip'] = dataset[0].astype(str)
+        choro['essentials'] = dataset[1]        
+    else:
+        choro = sample.generateSampleZips()  
     cLayer = folium.Choropleth(geo_data='nyczip.geojson', data=choro, columns=['zip', 'essentials'], \
                         key_on='feature.properties.postalCode', fill_color='OrRd', fill_opacity=.7, \
                         legend_name=legend)
-    nyMap.add_child(cLayer)
+    map.add_child(cLayer)
     cLayer.layer_name = name
 
 def show(map):
-    LayerControl(collapsed=True).add_to(nyMap)
-    nyMap.save('nycLayering.html')
+    LayerControl(collapsed=False).add_to(map)
+    map.save('nycLayering.html')
     webbrowser.open('nycLayering.html')
-
-
-nyMap = folium.Map(location=[40.7128, -74.0060], titles='Stamen Toner', zoom_start=11) 
-choropleth(nyMap, 'Layer1', "Test1", None)
-choropleth(nyMap, 'Layer2', "Test2", None)
-show(nyMap)
