@@ -1,0 +1,101 @@
+1. Essential health care operations:
+
+Research and laboratory services
+Hospitals
+Walk-in-care health facilities
+Emergency veterinary and livestock services
+Elder care
+Medical wholesale and distribution
+Home health care workers or aides for the elderly
+Doctor and emergency dental
+Nursing homes, residential health care facilities or congregate care facilities
+Medical supplies and equipment manufacturers and providers
+
+2. Essential infrastructure:
+
+Utilities including power generation, fuel supply and transmission
+Public water and wastewater
+Telecommunications and data centers
+Airports/airlines
+Transportation infrastructure such as bus, rail, or for-hire vehicles, garages
+Hotels, and places of accommodation
+
+3. Essential manufacturing:
+
+Food processing, manufacturing agents, including all foods and beverages
+Chemicals
+Medical equipment/instruments
+Pharmaceuticals
+Sanitary products
+Telecommunications
+Microelectronics/semi-conductor
+Agriculture/farms
+Household paper products
+
+4. Essential retail:
+
+Grocery stores including all food and beverage stores
+Pharmacies
+Convenience stores
+Farmer’s markets
+Gas stations
+Restaurants/bars (but only for take-out/delivery)
+Hardware and building material stores
+
+5. Essential services:
+
+Trash and recycling collection, processing and disposal
+Mail and shipping services
+Laundromats
+Building cleaning and maintenance
+Child care services
+Auto repair
+Warehouse/distribution and fulfillment
+Funeral homes, crematoriums and cemeteries
+Storage for essential businesses
+Animal shelters
+Real estate
+
+6. News media
+
+7. Financial Institutions:
+
+Banks
+Insurance
+Payroll
+Accounting
+Services related to financial markets
+
+8. Providers of basic necessities to economically disadvantaged populations:
+
+Homeless shelters and congregate care facilities
+Food banks
+Human services providers whose function includes the direct care of patients in state-licensed or funded voluntary programs; the care, protection, custody and oversight of individuals both in the community and in state-licensed residential facilities; those operating community shelters and other critical human services agencies providing direct care or support
+
+9. Construction:
+
+Essential infrastructure projects like hospitals only
+
+10. Defense:
+
+Defense and national security-related operations supporting the U.S. Government or a contractor to the US government
+
+11. Essential services necessary to maintain the safety, sanitation and essential operations of residences or other essential businesses:
+
+Law enforcement
+Fire prevention and response
+Building code enforcement
+Security
+Emergency management and response
+Building cleaners or janitors
+General maintenance whether employed by the entity directly or a vendor
+Automotive repair
+Disinfection
+
+12. Vendors that provide essential services or products, including logistics and technology support, child care and services:
+
+Logistics
+Technology support for online services
+Child care programs and services
+Government owned or leased buildings
+Essential government services

@@ -1,0 +1,19 @@
+EssentialBusinessInDatabase
+
+Booting Company
+Process Server Individual
+Tow Truck Driver
+Garage
+Laundry
+Employment Agency
+Tow Truck Company
+Tow Truck Exemption
+Laundries
+Stoop Line Stand
+Debt Collection Agency
+Newsstand
+Garage and Parking Lot
+Laundry Jobber
+Parking Lot
+Process Serving Agency
+Storage Warehouse
