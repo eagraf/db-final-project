@@ -19,9 +19,12 @@ class database:
         return None
     
     # Show change in essential density after changing essential list
-    def getEssentialDensityDelta(self, zipCode):
-        #Get essential density before change, get density after change
-        return None
+    def getEssentialDensityDelta(self, zipCode, newBiz):
+        firstDensity = self.getEssentialDensity(zipCode)
+        self.addEssentialBusiness(newBiz)
+        secondDensity = self.getEssentialDensity(zipCode)
+        self.removeEssentialBusiness(newBiz)
+        return secondDensity - firstDensity
 
     def getMedianIncome(self, zipCode):
         return None
@@ -37,10 +40,21 @@ class database:
         q = "SELECT Industry FROM db_project.business WHERE address_zip = %s GROUP BY Industry"
         return self.query(q, zipCode)
 
-    # TODO make a python list of essential industries that's modifiable
+    essential_Businesses = ["Booting Company", "Process Server Individual", "Tow Truck Driver", 
+        "Garage", "Laundry", "Employment Agency", "Tow Truck Company", "Tow Truck Exemption", "Laundries",
+        "Stoop Line Stand", "Debt Collection Agency", "Newsstand", "Garage and Parking Lot", "Laundry Jobber",
+        "Parking Lot", "Process Serving Agency", "Storage Warehouse"]
+
     def addEssentialBusiness(self, newBiz):
-        #Check that newBiz is in the valid industry
-        return None
+        industries = self.query("SELECT Industry FROM db_project.business GROUP BY Industry")
+        if(newBiz not in industries): #Fail
+            print("Business Type Not Found.")
+            return False
+        if(newBiz in self.essential_Businesses): #Do nothing because it's already there
+            return True
+        self.essential_Businesses.append(newBiz)
+        return True
 
     def removeEssentialBusiness(self, remBiz):
-        return None   
+        if(remBiz in self.essential_Businesses):
+            self.essential_Businesses.remove(remBiz)  
