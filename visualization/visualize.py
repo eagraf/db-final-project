@@ -1,4 +1,4 @@
-from folium import plugins, LayerControl, FeatureGroup
+from folium import plugins, LayerControl, FeatureGroup, Marker
 import pandas as pd
 import webbrowser
 import folium
@@ -7,8 +7,6 @@ import sample
 
 #https://morioh.com/p/d896544d6977
 #https://www.storybench.org/how-to-build-a-heatmap-in-python/
-
-nyMap = folium.Map(location=[40.7128, -74.0060], titles='Stamen Toner', zoom_start=11) 
 
 # should take longitude latitude data
 def heatmap(name):
@@ -21,19 +19,22 @@ def heatmap(name):
     nyMap.add_child(plugins.HeatMap(data=df[['latitude', 'longitude']].values, radius=24, blur=10))
 
 
-# should take zicode data, black on the map=essentials
-def choropleth(cLayer, name):
+# should take zipcode data, black on the map=essentials
+def choropleth(map, name, legend, dataset):
     choro = sample.generateSampleZips()  
     cLayer = folium.Choropleth(geo_data='nyczip.geojson', data=choro, columns=['zip', 'essentials'], \
                         key_on='feature.properties.postalCode', fill_color='OrRd', fill_opacity=.7, \
-                        legend_name='Essentials Per Zip')
+                        legend_name=legend)
     nyMap.add_child(cLayer)
     cLayer.layer_name = name
-    LayerControl().add_to(nyMap)
 
-#heatmap()
-c1, c2 = None, None
-choropleth(c1, 'Layer1')
+def show(map):
+    LayerControl(collapsed=True).add_to(nyMap)
+    nyMap.save('nycLayering.html')
+    webbrowser.open('nycLayering.html')
 
-nyMap.save('nycLayering.html')
-webbrowser.open('nycLayering.html')
+
+nyMap = folium.Map(location=[40.7128, -74.0060], titles='Stamen Toner', zoom_start=11) 
+choropleth(nyMap, 'Layer1', "Test1", None)
+choropleth(nyMap, 'Layer2', "Test2", None)
+show(nyMap)
