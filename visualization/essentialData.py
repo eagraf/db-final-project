@@ -55,7 +55,7 @@ class essentialData:
         print("Creating ny choro map...")
 
         nyMap = folium.Map(location=[40.7128, -74.0060], titles='Stamen Toner', zoom_start=11)   
-        folium.Choropleth(geo_data='nyczip.geojson', data=df, columns=['zip', 'essentials'], \
+        folium.Choropleth(geo_data='nyczip.geojson', data=df, columns=['zip', 'essential'], \
                         key_on='feature.properties.postalCode', fill_color='OrRd', fill_opacity=.7, \
                         legend_name='Essentials Per Zip').add_to(nyMap)
         nyMap.save('nycEssentialMap.html')
@@ -135,7 +135,8 @@ class essentialData:
         webbrowser.open('nycEssentialDensityMap.html')
         cursor.close()  
 
-essentialData.create_essential_Map()
+test = essentialData()
+test.create_essential_Map()
 
 
 
