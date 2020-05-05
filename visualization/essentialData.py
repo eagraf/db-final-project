@@ -16,7 +16,7 @@ class essentialData:
         records = cursor.fetchall()
         return len(records) == 1
 
-    def create_essential_Map(self, map):
+    def create_essential_Map(self, map, dataset):
         cursor = self.conn.cursor()
         cursor.execute("ALTER TABLE db_project.business  \
             DROP COLUMN IF EXISTS essential;")
@@ -99,6 +99,19 @@ class essentialData:
                         legend_name='Essentials Per Zip', show=False)
         map.add_child(densityMap)
     
+    # Generalization of create_essential_Map() Function above
+    # Ex Call: 
+    # essential_map(nyMap, 'Essential Density', 'Density Range', From Query Script in form [zip, essential])
+    def essential_map(self, map, name, legend, dataset):
+        choro = pd.DataFrame()
+        choro['zip'] = dataset[0].astype(str)
+        choro['essentials'] = dataset[1]         
+        cLayer = folium.Choropleth(geo_data='nyczip.geojson', data=choro, columns=['zip', 'essentials'], \
+                            key_on='feature.properties.postalCode', fill_color='OrRd', fill_opacity=.7, \
+                            legend_name=legend, show=False)
+        map.add_child(cLayer)
+        cLayer.layer_name = name
+
     def show(self, map):
         LayerControl(collapsed=False).add_to(map)
         map.save('nycLayeringEssential.html')
