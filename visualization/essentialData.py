@@ -1,6 +1,6 @@
 import psycopg2
 import psycopg2.extras
-from folium import plugins
+from folium import plugins, LayerControl, FeatureGroup, Marker
 import pandas as pd
 import numpy as np
 import webbrowser
@@ -16,7 +16,7 @@ class essentialData:
         records = cursor.fetchall()
         return len(records) == 1
 
-    def create_essential_Map(self):
+    def create_essential_Map(self, map):
         cursor = self.conn.cursor()
         cursor.execute("ALTER TABLE db_project.business  \
             DROP COLUMN IF EXISTS essential;")
@@ -40,6 +40,7 @@ class essentialData:
         query = "SELECT address_zip FROM db_project.business WHERE essential=TRUE"
         cursor.execute(query)
         essential = cursor.fetchall()
+        cursor.close() 
 
         print("Loading essential zips into db...")
 
@@ -54,15 +55,12 @@ class essentialData:
 
         print("Creating ny choro map...")
 
-        nyMap = folium.Map(location=[40.7128, -74.0060], titles='Stamen Toner', zoom_start=11)   
-        folium.Choropleth(geo_data='nyczip.geojson', data=df, columns=['zip', 'essential'], \
+        countMap = folium.Choropleth(geo_data='nyczip.geojson', data=df, columns=['zip', 'essential'], \
                         key_on='feature.properties.postalCode', fill_color='OrRd', fill_opacity=.7, \
-                        legend_name='Essentials Per Zip').add_to(nyMap)
-        nyMap.save('nycEssentialMap.html')
-        webbrowser.open('nycEssentialMap.html')
-        cursor.close()  
+                        legend_name='Essentials Per Zip', show=False)
+        map.add_child(countMap)
 
-    def create_essentialDensity_Map(self):
+    def create_essentialDensity_Map(self, map):
         cursor = self.conn.cursor()
         cursor.execute("ALTER TABLE db_project.business  \
             DROP COLUMN IF EXISTS essential;")
@@ -86,18 +84,15 @@ class essentialData:
         query = "SELECT address_zip, essential FROM db_project.business"
         cursor.execute(query)
         essential = cursor.fetchall()
+        cursor.close() 
 
         print("Loading essential zips into db...")
 
         df = pd.DataFrame(essential, columns=['zip', 'essential']).dropna() 
         df = df.groupby(['zip', 'essential']).size().reset_index(name='Count')
-
-        print(df.head())
-        
+    
         # Create placeholder column for df density
         df['essentialDensity'] = np.nan
-
-        print(df.head())
 
         for index, row in df.iterrows():
             zip_code = row["zip"]
@@ -117,26 +112,21 @@ class essentialData:
             density = float(trueCount)/(float(trueCount) + float(falseCount))
             df.at[index, "essentialDensity"] = density
 
-        print(df.head())
-
         df['zip'] = df['zip'].astype(str)
         df = df.drop(labels=['Count', 'essential'], axis=1)
         df.drop_duplicates(subset='zip', keep='first', inplace=True)
 
-        print(df.head())
-
         print("Creating ny choro map...")
 
-        nyMap = folium.Map(location=[40.7128, -74.0060], titles='Stamen Toner', zoom_start=11)   
-        folium.Choropleth(geo_data='nyczip.geojson', data=df, columns=['zip', 'essentialDensity'], \
+        densityMap = folium.Choropleth(geo_data='nyczip.geojson', data=df, columns=['zip', 'essentialDensity'], \
                         key_on='feature.properties.postalCode', fill_color='OrRd', fill_opacity=.7, \
-                        legend_name='Essentials Per Zip').add_to(nyMap)
-        nyMap.save('nycEssentialDensityMap.html')
-        webbrowser.open('nycEssentialDensityMap.html')
-        cursor.close()  
-
-test = essentialData()
-test.create_essential_Map()
+                        legend_name='Essentials Per Zip', show=False)
+        map.add_child(densityMap)
+    
+    def show(self, map):
+        LayerControl(collapsed=False).add_to(map)
+        map.save('nycLayeringEssential.html')
+        webbrowser.open('nycLayeringEssential.html')
 
 
 
