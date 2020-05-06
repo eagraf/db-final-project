@@ -1,12 +1,21 @@
 import folium
-import sys
-sys.path.insert(0, '../visualization')
 import essentialData as ess
 
+# Define our variables
 nyMap = folium.Map(location=[40.7128, -74.0060], titles='Stamen Toner', zoom_start=11)
-test = ess.essentialData()
-dataset1, dataset2 = None, None
-# Should accept dataset of ['zip', 'essentials']
-test.create_essential_Map(nyMap, dataset1)
-test.create_essentialDensity_Map(nyMap, dataset2)
-test.show(nyMap)
+mapDisp = ess.essentialData()
+
+while(1):
+    print("Running Database Systems Final Project...")
+    print("Enter 'info' for a list of our features and how to use them")
+    print("Enter 'quit' to Exit")
+    val = input("Type a Command: ")
+    if val == 'quit':
+        print("Exiting Program...")
+        break
+    if val == 'display':
+        mapDisp.show(nyMap)
+    if val == 'add'
+      #...
+    if val == #...
+      #...
