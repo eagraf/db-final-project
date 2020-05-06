@@ -9,6 +9,7 @@ import folium
 class essentialData:
     def __init__(self):
         self.conn = psycopg2.connect("host='localhost' dbname='finalproject' user='finalproject' password='pass'")
+        self.layered = False
 
     def check_connectivity(self):
         cursor = self.conn.cursor()
@@ -113,7 +114,9 @@ class essentialData:
         cLayer.layer_name = name
 
     def show(self, map):
-        LayerControl(collapsed=False).add_to(map)
+        if self.layered == False:
+            LayerControl(collapsed=False).add_to(map)
+            self.layered = True
         map.save('nycLayeringEssential.html')
         webbrowser.open('nycLayeringEssential.html')
 
