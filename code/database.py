@@ -1,6 +1,6 @@
 import psycopg2
 import psycopg2.extras
-from load_data.py import connection_string
+from load_data import connection_string
 
 
 class database:

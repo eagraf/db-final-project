@@ -1,4 +1,8 @@
 import folium
+import sys
+
+sys.path.append('../visualization')
+
 import database as db
 import essentialData as ess
 

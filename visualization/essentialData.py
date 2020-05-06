@@ -8,7 +8,7 @@ import folium
 
 class essentialData:
     def __init__(self):
-        self.conn = psycopg2.connect(host='localhost', dbname='dbms_final_project', user='farukhsaidmuratov', password='')
+        self.conn = psycopg2.connect("host='localhost' dbname='finalproject' user='finalproject' password='pass'")
 
     def check_connectivity(self):
         cursor = self.conn.cursor()
