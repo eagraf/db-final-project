@@ -15,11 +15,15 @@ class visualization:
 
     # Generate a dataframe with a zips column and a result column that is the "func" applied to all
     # the zips in NYC 
-    def generateZips(self, func):
+    def generateZips(self, func, businessType=None):
         # Connect to db and get zips of nyc 
         cursor = self.conn.cursor()
-        query = "SELECT DISTINCT address_zip FROM db_project.business"
-        cursor.execute(query)
+        if businessType is not None:
+            query = "SELECT DISTINCT address_zip FROM db_project.business WHERE industry=%s"
+            cursor.execute(query,(businessType,))
+        else:
+            query = "SELECT DISTINCT address_zip FROM db_project.business"
+            cursor.execute(query)
         zips = cursor.fetchall()
 
         # Create df w/ zip column and empty result column 
