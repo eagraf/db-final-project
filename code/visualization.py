@@ -5,6 +5,8 @@ import pandas as pd
 import numpy as np
 import folium
 import os
+import webbrowser
+from folium.plugins import MarkerCluster
 from load_data import connection_string
 
 
