@@ -5,6 +5,7 @@ import pandas as pd
 import numpy as np
 import webbrowser
 import folium
+import os
 from load_data import connection_string
 
 class essentialData:
@@ -124,7 +125,7 @@ class essentialData:
             LayerControl(collapsed=False).add_to(map)
             self.layered = True
         map.save('nycLayeringEssential.html')
-        webbrowser.open('nycLayeringEssential.html')
+        return os.path.abspath('nycLayeringEssential.html')
 
 
 
