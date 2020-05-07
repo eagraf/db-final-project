@@ -6,7 +6,6 @@ import numpy as np
 import folium
 import os
 from load_data import connection_string
-from folium.plugins import MarkerCluster
 
 
 class visualization:
