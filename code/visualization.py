@@ -28,13 +28,17 @@ class visualization:
 
         # Create df w/ zip column and empty result column 
         df = pd.DataFrame(zips, columns=['zip']).dropna() 
-        df['result'] = 0
+        df['result'] = 0.0
 
         # Apply func to each zip code 
         for index, row in df.iterrows():
             zip_code = row["zip"]
-            result = func(int(zip_code))
-            df.at[index, "result"] = result*100
+            if(businessType is None):
+                result = func(int(zip_code))
+            else:
+                result = func(int(zip_code), businessType)
+            # print(result)
+            df.at[index, "result"] = result
         # Pass completed df to essential_map which creates layer, and then show, which presents map
         nyMap = folium.Map(location=[40.7128, -74.0060], titles='Stamen Toner', zoom_start=11)
         self.essential_map(nyMap, str(func.__name__), str(func.__name__), df)
@@ -46,7 +50,10 @@ class visualization:
     def essential_map(self, map, name, legend, dataset):
         choro = pd.DataFrame()
         choro['zip'] = dataset['zip']
-        choro['essentials'] = dataset['result']         
+        choro['essentials'] = dataset['result']       
+        if(choro['essentials'].max() <= 1): #Put percent data on a scale so you can see differences better
+            choro['essentials'] = np.power(choro['essentials'], 1/2)*100
+        # print(choro['essentials'][50])         
         cLayer = folium.Choropleth(geo_data='nyczip.geojson', data=choro, columns=['zip', 'essentials'], \
                             key_on='feature.properties.postalCode', fill_color='OrRd', fill_opacity=.7, \
                             legend_name=legend, show=False)

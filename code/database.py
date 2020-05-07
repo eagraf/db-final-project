@@ -45,7 +45,8 @@ class database:
     # Get essential % for all of nyc
     def getTotalEssential(self):
         q = "SELECT COUNT(*) FROM db_project.business where ess = 1"
-        return self.query(q)[0]
+        q1 = "SELECT COUNT(*) FROM db_project.business"
+        return 1.0*self.query(q)[0][0]/self.query(q1)[0][0]
 
     def getIndustriesInZipCode(self, zipCode):
         q = "SELECT Industry FROM db_project.business WHERE address_zip = '%s' GROUP BY Industry"
@@ -56,34 +57,48 @@ class database:
         return self.query(q, [zipCode])[0]
 
     def addEssentialBusiness(self, newBiz):
-        industries = self.query(
-            "SELECT Industry FROM db_project.business GROUP BY Industry")
+        industries = [s[0] for s in self.listValidBiz()]
         if(newBiz not in industries):  # Fail
             print("Business Type Not Found.")
             return False
         if(newBiz in self.essential_Businesses):  # Do nothing because it's already there
             return True
         self.essential_Businesses.append(newBiz)
+        q = "UPDATE db_project.business SET ess = 1 WHERE industry = %s"
+        self.conn.cursor().execute(q, [newBiz])
+        self.conn.commit()
         return True
 
     def removeEssentialBusiness(self, remBiz):
         if(remBiz in self.essential_Businesses):
             self.essential_Businesses.remove(remBiz)
+            q = "UPDATE db_project.business SET ess = 0 WHERE industry = %s"
+            self.conn.cursor().execute(q, [remBiz])
+            self.conn.commit()
 
     # Takes in Zipcode and then queries population from zip
     # and queries # of essential from business
     # Returns population / # of essential businesses in a zipcode
     def getPopulation(self, zipCode):
-        q = "SELECT population FROM db_project.business JOIN db_project.zip ON db_project.business.address_zip = db_project.zip.zip WHERE address_zip = '%s'"
-        return self.query(q, [zipCode])[0]  
+        q = "SELECT population FROM db_project.zip WHERE db_project.zip.zip = '%s'"
+        result = self.query(q, [zipCode])
+        if(len(result) > 0):
+            return result[0][0]
+        return 0
 
     def getPopToEssential(self, zipCode):
-        q = "SELECT population/count(*) FROM db_project.business JOIN db_project.zip ON db_project.business.address_zip = db_project.zip.zip WHERE address_zip = '%s' and ess = 1 group by population"
-        return self.query(q, [zipCode])[0]
+        q = "SELECT population/count(*) FROM db_project.business JOIN db_project.zip ON db_project.business.address_zip = db_project.zip.zip WHERE address_zip = '%s' and ess = 1 GROUP BY population"
+        result = self.query(q, [zipCode])
+        if(len(result) > 0):
+            return result[0][0]
+        return 0
 
-    def getPopToIndustry(self, industry, zipCode):
-        q = "SELECT population/count(*) FROM db_project.business JOIN db_project.zip ON db_project.business.address_zip = db_project.zip.zip WHERE address_zip = '%s' and industry = '%s' = 1 group by population"
-        return self.query(q, [zipCode, industry])[0]
+    def getPopToIndustry(self, zipCode, industry):
+        q = "SELECT population/count(*) FROM db_project.business JOIN db_project.zip ON db_project.business.address_zip = db_project.zip.zip WHERE address_zip = '%s' and industry = %s AND ess = 1 GROUP BY population"
+        result = self.query(q, [zipCode, industry])
+        if(len(result) > 0):
+            return result[0][0]
+        return 0
 
     def listValidBiz(self):
         q = "SELECT DISTINCT industry FROM db_project.business"

@@ -1,8 +1,5 @@
 import folium
 import sys
-
-sys.path.append('../visualization')
-
 import database as db
 import visualization as vis
 
@@ -25,6 +22,7 @@ while(1):
     elif(len(values) >= 3):
         zipcode = int(values[1])
         newBiz = values[2:]
+        newBiz = ' '.join([str(elem) for elem in newBiz]) 
     elif(len(values) != 1):
         print("Invalid input")
     
@@ -47,28 +45,28 @@ while(1):
         print(dbObj.listValidZips())
     elif val == 'getEssentialPercent':
         print("Displaying the essential percentage for", zipcode)
-        print(dbObj.getEssentialDensity(zipcode)) #TODO Format as a percentage
+        print("{:.2%} essential businesses".format(dbObj.getEssentialDensity(zipcode)))
         mapObj.generateZips(dbObj.getEssentialDensity)
     elif val == "getEssentialDelta":
-        print("Displaying the delta in essential percentage if","was an essential business.")
-        print(dbObj.getEssentialDensityDelta(zipcode, newBiz))
-        mapObj.generateZips(dbObj.getEssentialDensityDelta)
+        print("Displaying the delta in essential percentage if",newBiz,"was an essential business.")
+        print("{:.2%} more essential businesses".format(dbObj.getEssentialDensityDelta(zipcode, newBiz)))
+        mapObj.generateZips(dbObj.getEssentialDensityDelta, newBiz)
     elif val == "totalEssential":
         print("The essential percentage for all of NYC is:")
-        print(dbObj.getTotalEssential())
+        print("{:.2%}".format(dbObj.getTotalEssential()))
         mapObj.generateZips(dbObj.getEssentialDensity)
     elif val == "population":
         print("The population in", "is:")
         print(dbObj.getPopulation(zipcode))
         mapObj.generateZips(dbObj.getPopulation)
     elif val == "popToEssential":
-        print("The population to number of essential businesses is:")
+        print("The population per essential business in", zipcode, "is:")
         print(dbObj.getPopToEssential(zipcode))
-        mapObj.generateZips(dbObj.getPopToEssential)
-    elif val == "denToEssential":
-        print("The population to number of essential businesses is:")
-        print(dbObj.getDenToEssential(zipcode))
-        mapObj.generateZips(dbObj.getDenToEssential)
+        mapObj.generateZips(dbObj.getPopToEssential) #NOTE Visualization bug here (no data being shown)
+    elif val == "popToIndustry":
+        print("The population to number of",newBiz ,"businesses is:")
+        print(dbObj.getPopToIndustry(zipcode, newBiz))
+        mapObj.generateZips(dbObj.getPopToIndustry, newBiz)
     else:
         print('\nInvalid Input\n')
     
