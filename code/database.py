@@ -73,11 +73,11 @@ class database:
     # Takes in Zipcode and then queries population from zip
     # and queries # of essential from business
     # Returns population / # of essential businesses in a zipcode
-    def getPoptoEssential(self, zipCode):
+    def getPopToEssential(self, zipCode):
         q = "SELECT population/count(*) FROM db_project.business JOIN db_project.zip ON db_project.business.address_zip = db_project.zip.zip WHERE address_zip = '%s' and ess = 1 group by population"
         return self.query(q, [zipCode])[0]
 
-    def getPoptoIndustry(self, industry, zipCode):
+    def getPopToIndustry(self, industry, zipCode):
         q = "SELECT population/count(*) FROM db_project.business JOIN db_project.zip ON db_project.business.address_zip = db_project.zip.zip WHERE address_zip = '%s' and industry = '%s' = 1 group by population"
         return self.query(q, [zipCode, industry])[0]
 
