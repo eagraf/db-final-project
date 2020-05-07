@@ -5,10 +5,11 @@ import pandas as pd
 import numpy as np
 import webbrowser
 import folium
+from load_data import connection_string
 
 class essentialData:
     def __init__(self):
-        self.conn = psycopg2.connect("host='localhost' dbname='finalproject' user='finalproject' password='pass'")
+        self.conn = psycopg2.connect(connection_string)
         self.layered = False
 
     def check_connectivity(self):

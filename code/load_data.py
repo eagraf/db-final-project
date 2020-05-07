@@ -3,7 +3,7 @@ import psycopg2.extras
 import csv
 import os
 
-connection_string = "host='localhost' dbname='finalproject' user='finalproject' password='pass'"
+connection_string = "host='localhost' dbname='dbms_final_project' user='dbms_project_user' password='dbms_password'"
 
 # TODO add your code here (or in other files, at your discretion) to load the data
 
