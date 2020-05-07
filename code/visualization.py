@@ -7,6 +7,7 @@ import webbrowser
 import folium
 import os
 from load_data import connection_string
+from folium.plugins import MarkerCluster
 
 
 class visualization:
@@ -56,12 +57,6 @@ class visualization:
     def generateZips(self, func, businessType=None):
         # Connect to db and get zips of nyc
         cursor = self.conn.cursor()
-        # if businessType is not None:
-        #     query = "SELECT DISTINCT address_zip FROM db_project.business WHERE address_borough != 'Outside NYC' AND address_state = 'NY' AND industry=%s"
-        #     cursor.execute(query, (businessType,))
-        # else:
-        #     query = "SELECT DISTINCT address_zip FROM db_project.business WHERE address_borough != 'Outside NYC' AND address_state = 'NY'"
-        #     cursor.execute(query)
         zips = self.valid_zips
 
         # Create df w/ zip column and empty result column
@@ -79,8 +74,7 @@ class visualization:
             df.at[index, "result"] = result
         
         # Pass completed df to essential_map which creates layer, and then show, which presents map
-        nyMap = folium.Map(
-            location=[40.7128, -74.0060], titles='Stamen Toner', zoom_start=11)
+        nyMap = folium.Map(location=[40.7128, -74.0060], titles='Stamen Toner', zoom_start=11)
         self.essential_map(nyMap, str(func.__name__), str(func.__name__), df)
         self.show(nyMap)
 
@@ -99,9 +93,12 @@ class visualization:
             print("Percentages all less than 20%, put on a scale to visualize difference (see visualization).")
             choro['essentials'] = np.power(choro['essentials'], 1)*100
         # print(choro['essentials'][50])
+        tooltip = folium.GeoJsonTooltip(fields = ('zip','essential'))
         cLayer = folium.Choropleth(geo_data='nyczip.geojson', data=choro, columns=['zip', 'essentials'],
                                    key_on='feature.properties.postalCode', fill_color='OrRd', fill_opacity=.7,
-                                   legend_name=legend, show=False)
+                                   legend_name=legend, show=True, highlight=True)
+        cLayer.geojson.add_child(folium.features.GeoJsonTooltip(['postalCode']))
+
         map.add_child(cLayer)
         cLayer.layer_name = name
 

@@ -48,7 +48,7 @@ while(1):
         print("{:.2%} essential businesses".format(dbObj.getEssentialDensity(zipcode)))
         mapObj.generateZips(dbObj.getEssentialDensity)
     elif val == "getEssentialDelta":
-        print("Displaying the delta in essential percentage change in", zipcode, "if",newBiz,"was an essential business.")
+        print("Displaying the delta in essential percentage in", zipcode, "if",newBiz,"was an essential business.")
         print("{:.2%} more essential businesses".format(dbObj.getEssentialDensityDelta(zipcode, newBiz)))
         mapObj.generateZips(dbObj.getEssentialDensityDelta, newBiz)
     elif val == "totalEssential":
@@ -56,7 +56,7 @@ while(1):
         print("{:.2%}".format(dbObj.getTotalEssential()))
         mapObj.generateZips(dbObj.getEssentialDensity)
     elif val == "population":
-        print("The population in", "is:")
+        print("The population density in", "is:")
         print(dbObj.getPopulation(zipcode))
         mapObj.generateZips(dbObj.getPopulation)
     elif val == "popToEssential":

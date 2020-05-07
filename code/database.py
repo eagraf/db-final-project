@@ -98,7 +98,6 @@ class database:
         q = "SELECT population/count(*) FROM db_project.business JOIN db_project.zip ON db_project.business.address_zip = db_project.zip.zip WHERE address_zip = '%s' and industry = %s GROUP BY population"
         result = self.query(q, [zipCode, industry])
         if(len(result) > 0):
-            print(result)
             return result[0][0]
         return 0
 
