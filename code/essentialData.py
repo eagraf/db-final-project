@@ -100,6 +100,11 @@ class essentialData:
                         key_on='feature.properties.postalCode', fill_color='OrRd', fill_opacity=.7, \
                         legend_name='Essentials Per Zip', show=False)
         map.add_child(densityMap)
+
+    def generateZips(self, func, zip):
+        df = func(zip)
+        nyMap = folium.Map(location=[40.7128, -74.0060], titles='Stamen Toner', zoom_start=11)
+        essential_map(nyMap, "query", "Essential per Zip", df)
     
     # Generalization of create_essential_Map() Function above
     # Ex Call: 
