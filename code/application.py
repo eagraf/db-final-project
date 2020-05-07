@@ -4,11 +4,11 @@ import sys
 sys.path.append('../visualization')
 
 import database as db
-import essentialData as ess
+import visualization as vis
 
 # Define our variables
 nyMap = folium.Map(location=[40.7128, -74.0060], titles='Stamen Toner', zoom_start=11)
-mapObj = ess.essentialData()
+mapObj = vis.visualization()
 dbObj = db.database()
 
 print('\nRunning Database Systems Final Project...')
