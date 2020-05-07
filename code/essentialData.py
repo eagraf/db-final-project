@@ -19,6 +19,7 @@ class essentialData:
         records = cursor.fetchall()
         return len(records) == 1
 
+    '''
     def create_essential_Map(self, map, dataset):
         cursor = self.conn.cursor()
         cursor.execute("ALTER TABLE db_project.business  \
@@ -101,11 +102,27 @@ class essentialData:
                         key_on='feature.properties.postalCode', fill_color='OrRd', fill_opacity=.7, \
                         legend_name='Essentials Per Zip', show=False)
         map.add_child(densityMap)
+    '''
 
-    def generateZips(self, func, zip):
-        df = func(zip)
+    # Generate a dataframe with a zips column and a result column that is the "func" applied to all
+    # the zips in NYC 
+    def generateZips(self, func):
+        cursor = self.conn.cursor()
+        query = "SELECT address_zip FROM db_project.business"
+        cursor.execute(query)
+        zips = cursor.fetchall()
+
+        df = pd.DataFrame(essential, columns=['zip']).dropna() 
+        df.drop_duplicates(subset='zip', keep='first', inplace=True)
+        df['result'] = 0
+
+        for index, row in df.iterrows():
+            zip_code = row["zip"]
+            result = func(zip_code)
+            df.at[index, "result"] = result
+
         nyMap = folium.Map(location=[40.7128, -74.0060], titles='Stamen Toner', zoom_start=11)
-        essential_map(nyMap, "query", "Essential per Zip", df)
+        essential_map(nyMap, func.__qualname__, func.__qualname__, df)
     
     # Generalization of create_essential_Map() Function above
     # Ex Call: 

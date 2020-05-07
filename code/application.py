@@ -48,27 +48,27 @@ while(1):
     elif val == 'getEssentialPercent':
         print("Displaying the essential percentage for", zipcode)
         print(dbObj.getEssentialDensity(zipcode))
-        generateZips(dbObj.getEssentialDensity)
+        mapObj.generateZips(dbObj.getEssentialDensity)
     elif val == "getEssentialDelta":
         print("Displaying the delta in essential percentage if","was an essential business.")
         print(dbObj.getEssentialDensityDelta(zipcode, newBiz))
-        generateZips(dbObj.getEssentialDensityDelta)
+        mapObj.generateZips(dbObj.getEssentialDensityDelta)
     elif val == "totalEssential":
         print("The essential percentage for all of NYC is:")
         print(dbObj.getTotalEssential())
-        generateZips(dbObj.getEssentialDensity)
+        mapObj.generateZips(dbObj.getEssentialDensity)
     elif val == "population":
         print("The population in", "is:")
         print(dbObj.getPopulation(zipcode))
-        generateZips(dbObj.getPopulation)
+        mapObj.generateZips(dbObj.getPopulation)
     elif val == "popToEssential":
         print("The population to number of essential businesses is:")
         print(dbObj.getPopToEssential(zipcode))
-        generateZips(dbObj.getPopToEssential)
+        mapObj.generateZips(dbObj.getPopToEssential)
     elif val == "denToEssential":
         print("The population to number of essential businesses is:")
         print(dbObj.getDenToEssential(zipcode))
-        generateZips(dbObj.getDenToEssential)
+        mapObj.generateZips(dbObj.getDenToEssential)
     else:
         print('\nInvalid Input\n')
     
