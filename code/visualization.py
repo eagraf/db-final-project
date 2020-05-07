@@ -78,7 +78,6 @@ class visualization:
         self.essential_map(nyMap, str(func.__name__), str(func.__name__), df)
         self.show(nyMap)
 
-    # Generalization of create_essential_Map() Function above
     # Ex Call:
     # essential_map(nyMap, 'Essential Density', 'Density Range', From Query Script in form [zip, essential])
     def essential_map(self, map, name, legend, dataset):
