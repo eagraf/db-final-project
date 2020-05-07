@@ -65,6 +65,11 @@ def main():
                 else:
                     first = False
 
+    q = "ALTER TABLE db_project.business ADD COLUMN ess int default 0"
+    conn.cursor().execute(q)
+    q = "DELETE FROM db_project.business WHERE address_borough = 'Outside NYC' OR address_state <> 'NY' OR license_status = 'Inactive'"
+    conn.cursor().execute(q)
+    conn.commit()
 
 if __name__ == "__main__":
     main()

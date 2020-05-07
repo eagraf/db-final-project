@@ -25,7 +25,7 @@ while(1):
     elif(len(values) >= 3):
         zipcode = int(values[1])
         newBiz = values[2:]
-    else:
+    elif(len(values) != 1):
         print("Invalid input")
     
     if val == 'exit':
@@ -47,7 +47,7 @@ while(1):
         print(dbObj.listValidZips())
     elif val == 'getEssentialPercent':
         print("Displaying the essential percentage for", zipcode)
-        print(dbObj.getEssentialDensity(zipcode))
+        print(dbObj.getEssentialDensity(zipcode)) #TODO Format as a percentage
         mapObj.generateZips(dbObj.getEssentialDensity)
     elif val == "getEssentialDelta":
         print("Displaying the delta in essential percentage if","was an essential business.")
