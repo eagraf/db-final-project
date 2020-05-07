@@ -28,7 +28,8 @@ class database:
         # Get total # of businesses in zip
         q = "SELECT COUNT(*) FROM db_project.business WHERE address_zip = '%s'"
         bus_total = self.query(q, [zipCode])[0][0]
-
+        if(bus_total == 0):
+            return 0
         # Get total # of essential businesses in that list (use a sub query)
         q = "SELECT COUNT(*) FROM db_project.business WHERE address_zip = '%s' AND ess = 1"
         ess_total = self.query(q, [zipCode])[0][0]
@@ -57,7 +58,7 @@ class database:
         return self.query(q, [zipCode])[0]
 
     def addEssentialBusiness(self, newBiz):
-        industries = [s[0] for s in self.listValidBiz()]
+        industries = self.listValidBiz()
         if(newBiz not in industries):  # Fail
             print("Business Type Not Found.")
             return False
@@ -80,7 +81,7 @@ class database:
     # and queries # of essential from business
     # Returns population / # of essential businesses in a zipcode
     def getPopulation(self, zipCode):
-        q = "SELECT population FROM db_project.zip WHERE db_project.zip.zip = '%s'"
+        q = "SELECT density FROM db_project.zip WHERE db_project.zip.zip = '%s'"
         result = self.query(q, [zipCode])
         if(len(result) > 0):
             return result[0][0]
@@ -94,16 +95,17 @@ class database:
         return 0
 
     def getPopToIndustry(self, zipCode, industry):
-        q = "SELECT population/count(*) FROM db_project.business JOIN db_project.zip ON db_project.business.address_zip = db_project.zip.zip WHERE address_zip = '%s' and industry = %s AND ess = 1 GROUP BY population"
+        q = "SELECT population/count(*) FROM db_project.business JOIN db_project.zip ON db_project.business.address_zip = db_project.zip.zip WHERE address_zip = '%s' and industry = %s GROUP BY population"
         result = self.query(q, [zipCode, industry])
         if(len(result) > 0):
+            print(result)
             return result[0][0]
         return 0
 
     def listValidBiz(self):
         q = "SELECT DISTINCT industry FROM db_project.business"
-        return self.query(q)
+        return [q1[0] for q1 in self.query(q)]
 
     def listValidZips(self):
         q = "SELECT address_zip FROM db_project.business GROUP BY address_zip"
-        return self.query(q)
+        return [q1[0] for q1 in self.query(q)]

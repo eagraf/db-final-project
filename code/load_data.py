@@ -67,7 +67,9 @@ def main():
 
     q = "ALTER TABLE db_project.business ADD COLUMN ess int default 0"
     conn.cursor().execute(q)
-    q = "DELETE FROM db_project.business WHERE address_borough = 'Outside NYC' OR address_state <> 'NY' OR license_status = 'Inactive'"
+    q = "DELETE FROM db_project.business WHERE address_borough = 'Outside NYC' OR address_state <> 'NY' OR license_status = 'Inactive' or license_type = 'Individual'"
+    conn.cursor().execute(q)
+    q = "DELETE FROM db_project.business WHERE address_zip::INT < 10001 OR address_zip::INT > 11697"
     conn.cursor().execute(q)
     conn.commit()
 
