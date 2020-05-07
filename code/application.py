@@ -32,10 +32,10 @@ while(1):
         print('\nExiting Program...\n')
         break
     elif val == 'info':
-        print("Commands are: display, listEssential, listBusinesses, listValidZips, getEssentialPercent *zipcode*, getEssentialDelta *zipcode* *New Business*")
+        print("Please see readme.md for command documentation.")
     elif val == 'display':
         print('\nDisplaying Map...\n')
-        mapObj.show(nyMap)
+        print(mapObj.show(nyMap))
     elif val == 'listEssential':
         print("Displaying essential businesses")
         print(dbObj.essential_Businesses)
