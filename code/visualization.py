@@ -3,7 +3,6 @@ import psycopg2.extras
 from folium import plugins, LayerControl, FeatureGroup, Marker
 import pandas as pd
 import numpy as np
-import webbrowser
 import folium
 import os
 from load_data import connection_string
